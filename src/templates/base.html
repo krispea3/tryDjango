@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block head_title %}
+                Try Django 1.9
+            {% endblock head_title %}
+    </title>
+    <link rel="stylesheet" href="/static/css/base.css"/>
+</head>
+
+<body>
+    <!-- outputting messages from messages html -->
+    {% include "messages_display.html" %}
+
+    <!-- Defines a replacable block for Django
+            Can take content out and replace with other -->
+    <div class='container'>
+        {% block content %}
+
+        {% endblock content %}
+    </div>
+
+</body>
+</html>

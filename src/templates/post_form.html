@@ -1,0 +1,18 @@
+<!-- Takes base.html as parent -->
+{% extends "base.html" %}
+
+{% block head_title %}
+    Add/Change Post | {{ block.super }}
+{% endblock head_title %}
+<!-- Replaces the content in the block of parent -->
+{% block content %}
+<!-- keeps the content of the parent block -->
+<!-- {{ block.super}} -->
+    <h1>Form</h1>
+    <form method="POST">{% csrf_token %}
+        <!-- as_p means as paragraph -->
+        {{ form.as_p }}
+
+        <input type="submit" value="Create Post">
+    </form>
+{% endblock content %}

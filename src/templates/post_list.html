@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>{{ title }} is working</h1>
+
+    {% for obj in object_list %}
+        {% comment %} using named url in href
+                    the 'detail' is the name in urls.py
+                    Has the advantage that we still can call it if the path in urls.py changes
+        {% endcomment %}
+        <a href='{{ obj.get_absolute_url }}' >{{ obj.title }}</a><br/>
+        {{ obj.content }}<br/>
+        {{ obj.updated }}<br/>
+        {{ obj.timestamp }}<br/>
+        {{ obj.id }}<br/>
+        <br/>
+    {% endfor %}
+
+{% endblock content %}
