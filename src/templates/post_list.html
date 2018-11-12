@@ -1,20 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
+   
+    <div class='col-sm-8 mx-auto'>
+        <h1>My posts</h1>
+        <div class='row'>
+            {% for obj in object_list %}
+                <div class="card col-sm-12 mt-1" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href='{{ obj.get_absolute_url }}' >{{ obj.title }}</a> <small class='text-muted'><small>{{obj.timestamp|timesince}} ago</small></small></h5>
+                        {% comment %} <h6 class="card-subtitle mb-2 text-muted">{{ obj.timestamp}}</h6> {% endcomment %}
+                        <p class="card-text">{{ obj.content|linebreaks|truncatechars:120 }}</p>
+                        <a href="{{ obj.get_absolute_url }}" class="btn btn-primary">View post</a>
+                        <a href="{{obj.id}}/edit/" class="btn btn-success">Edit post</a>
+                    </div>
+                </div>
 
-    <h1>{{ title }} is working</h1>
-
-    {% for obj in object_list %}
-        {% comment %} using named url in href
-                    the 'detail' is the name in urls.py
-                    Has the advantage that we still can call it if the path in urls.py changes
-        {% endcomment %}
-        <a href='{{ obj.get_absolute_url }}' >{{ obj.title }}</a><br/>
-        {{ obj.content }}<br/>
-        {{ obj.updated }}<br/>
-        {{ obj.timestamp }}<br/>
-        {{ obj.id }}<br/>
-        <br/>
-    {% endfor %}
+                {% comment %}
+                    This would close the row div and create a new row every 2 times
+                    as the first argument of cycle is blank 
+                    {% cycle "" "</div> <div class='row'>" %} 
+                {% endcomment %}
+            {% endfor %}
+        </div>
+        <hr/>
+    </div>
 
 {% endblock content %}

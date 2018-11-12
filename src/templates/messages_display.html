@@ -2,12 +2,14 @@
 
 <!-- Message handling (django message framework) -->
 {% if messages %}
-    <div class='message'>
-        <ul class="messages">
-            {% for message in messages %}
-                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
+<div class='col-sm-8 mx-auto'>
+        <div class='messages alert alert-success' role="alert">
+            <ul class='messages'>
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 {% endif %}
 
