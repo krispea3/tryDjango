@@ -2,14 +2,23 @@
 
 <!-- Message handling (django message framework) -->
 {% if messages %}
-<div class='col-sm-8 mx-auto'>
-        <div class='messages alert alert-success' role="alert">
+    <div class='col-sm-8 mx-auto'>
+        {% comment %} <div class='messages alert alert-success' role="alert"> {% endcomment %}
             <ul class='messages'>
                 {% for message in messages %}
-                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <div class='alert alert-success' role="alert">
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        </div>
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <div class='alert alert-danger' role="alert">
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        </div>
+                    {% endif %}
+
                 {% endfor %}
             </ul>
-        </div>
+        {% comment %} </div> {% endcomment %}
     </div>
 {% endif %}
 

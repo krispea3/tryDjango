@@ -16,6 +16,9 @@ def post_create(request):
         instance.save()
         messages.success(request, 'Post succesfully added')
         return HttpResponseRedirect(instance.get_absolute_url())
+    else:
+        messages.error(request, 'Cannot create post')
+
     context = {
         'form': form,
     }
@@ -64,6 +67,9 @@ def post_update(request, post_id):
         instance.save()
         messages.success(request, 'Post succesfully updated')
         return HttpResponseRedirect(instance.get_absolute_url())
+    else:
+        messages.error(request, 'Cannot create post')
+
     context = {
         'title': instance.title,
         'instance': instance,
