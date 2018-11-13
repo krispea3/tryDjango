@@ -1,5 +1,5 @@
 """ Render, httpresponse, getobjector404... """
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect #, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
