@@ -1,5 +1,4 @@
 """ Future import """
-from __future__ import unicode_literals
 from django.db import models
 from django.core.urlresolvers import reverse
 
@@ -28,3 +27,12 @@ class Post(models.Model):
         return reverse("posts:detail", kwargs={'post_id': self.id})
         # %s means string substitution. is defined after the string with %()
         # return "/posts/%s/" %(self.id)
+
+    # Model metadata is “anything that’s not a field”, such as ordering options (ordering),
+    # database table name (db_table), or human-readable singular and plural names
+    # (verbose_name and verbose_name_plural).
+    # None are required, and adding class Meta to a model is completely optional.
+    # Here the ordering of a simple fetch will return the rows sorted with most recent timestamp
+    # without havin to order it
+    class Meta:
+        ordering = ["-timestamp", "-updated"]

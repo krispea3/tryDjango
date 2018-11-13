@@ -1,29 +1,54 @@
 {% extends "base.html" %}
 
 {% block content %}
-   
     <div class='col-sm-8 mx-auto'>
         <h1>My posts</h1>
         <div class='row'>
-            {% for obj in object_list %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if posts.has_previous %}
+                        <a href="?page={{ posts.previous_page_number }}">previous</a>
+                    {% endif %}
+    
+                    <span class="current">
+                        Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                    </span>
+    
+                    {% if posts.has_next %}
+                        <a href="?page={{ posts.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
+
+            {% for post in posts %}
                 <div class="card col-sm-12 mt-1" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title"><a href='{{ obj.get_absolute_url }}' >{{ obj.title }}</a> <small class='text-muted'><small>{{obj.timestamp|timesince}} ago</small></small></h5>
-                        {% comment %} <h6 class="card-subtitle mb-2 text-muted">{{ obj.timestamp}}</h6> {% endcomment %}
-                        <p class="card-text">{{ obj.content|linebreaks|truncatechars:120 }}</p>
-                        <a href="{{ obj.get_absolute_url }}" class="btn btn-primary">View post</a>
-                        <a href="{{obj.id}}/edit/" class="btn btn-success">Edit post</a>
+                        <h5 class="card-title"><a href='{{ obj.get_absolute_url }}' >{{ post.title }}</a> <small class='text-muted'><small>{{obj.timestamp|timesince}} ago</small></small></h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ post.timestamp}}</h6>
+                        <p class="card-text">{{ post.content|linebreaks|truncatechars:120 }}</p>
+                        <a href="{{ post.get_absolute_url }}" class="btn btn-primary">View post</a>
+                        <a href="{{post.id}}/edit/" class="btn btn-success">Edit post</a>
                     </div>
                 </div>
-
-                {% comment %}
-                    This would close the row div and create a new row every 2 times
-                    as the first argument of cycle is blank 
-                    {% cycle "" "</div> <div class='row'>" %} 
-                {% endcomment %}
             {% endfor %}
-        </div>
-        <hr/>
+
+            <div class="pagination mb-3">
+                    <span class="step-links">
+                        {% if posts.has_previous %}
+                            <a href="?page={{ posts.previous_page_number }}">previous</a>
+                        {% endif %}
+        
+                        <span class="current">
+                            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                        </span>
+        
+                        {% if posts.has_next %}
+                            <a href="?page={{ posts.next_page_number }}">next</a>
+                        {% endif %}
+                    </span>
+                </div>
+    
+
     </div>
 
 {% endblock content %}
