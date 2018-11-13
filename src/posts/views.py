@@ -11,7 +11,8 @@ from .forms import PostForm
 # Create your views here.
 def post_create(request):
     """ Create Post """
-    form = PostForm(request.POST or None)
+    # request.FILES has to be defined when file upload in Form
+    form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()
@@ -54,7 +55,7 @@ def post_list(request):
 def post_update(request, post_id):
     """ Update Post """
     instance = get_object_or_404(Post, id=post_id)
-    form = PostForm(request.POST or None, instance=instance)
+    form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
         instance = form.save(commit=False)
         print(form.cleaned_data.get("title"))

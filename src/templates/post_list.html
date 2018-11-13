@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class='col-sm-8 mx-auto'>
+    <div class='col-sm-6 mx-auto'>
         <h1>My posts</h1>
         <div class='row'>
             <div class="pagination">
@@ -23,8 +23,11 @@
             {% for post in posts %}
                 <div class="card col-sm-12 mt-1" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title"><a href='{{ obj.get_absolute_url }}' >{{ post.title }}</a> <small class='text-muted'><small>{{obj.timestamp|timesince}} ago</small></small></h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ post.timestamp}}</h6>
+                        <h5 class="card-title"><a href='{{ post.get_absolute_url }}' >{{ post.title }}</a> <small class='text-muted'><small>{{post.timestamp|timesince}} ago</small></small></h5>
+                        {% if post.image %}
+                            <img class="card-img-top" src="{{post.image.url}}" alt="Card image cap">
+                        {% endif %}
+                        {% comment %} <h6 class="card-subtitle mb-2 text-muted">{{ post.timestamp}}</h6> {% endcomment %}
                         <p class="card-text">{{ post.content|linebreaks|truncatechars:120 }}</p>
                         <a href="{{ post.get_absolute_url }}" class="btn btn-primary">View post</a>
                         <a href="{{post.id}}/edit/" class="btn btn-success">Edit post</a>

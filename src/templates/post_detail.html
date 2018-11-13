@@ -6,9 +6,12 @@
 
 {% block content %}
 
-    <div class='col-sm-8 mx-auto border mt-3 pb-3'>
+    <div class='col-sm-6 mx-auto border mt-3 pb-3'>
             <h1>{{ title }} <small class='text-muted'><small>{{ instance.timestamp }}</small></small></h1>
             {{ instance.content|linebreaks }}<br/>
+            {% if instance.image %}
+                <img src="{{ instance.image.url }}" class="img-responsive"><br/>
+            {% endif %}
             <a href="/posts" class="btn btn-primary">Back</a>
     </div>
 
