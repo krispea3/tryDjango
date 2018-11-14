@@ -11,12 +11,16 @@ from .forms import PostForm
 # Create your views here.
 def post_create(request):
     """ Create Post """
+    if not request.user.is_authenticated():
+        raise Http404
+
     if not request.user.is_staff or not request.user.is_superuser:
         raise Http404
     # request.FILES has to be defined when file upload in Form
     form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         instance = form.save(commit=False)
+        instance.user = request.user
         instance.save()
         messages.success(request, 'Post succesfully added')
         return HttpResponseRedirect(instance.get_absolute_url())

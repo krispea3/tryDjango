@@ -27,8 +27,19 @@
                         {% if post.image %}
                             <img class="card-img-top" src="{{post.image.url}}" alt="Card image cap">
                         {% endif %}
-                        {% comment %} <h6 class="card-subtitle mb-2 text-muted">{{ post.timestamp}}</h6> {% endcomment %}
                         <p class="card-text">{{ post.content|linebreaks|truncatechars:120 }}</p>
+
+                        <p>
+                            {% if post.user.get_full_name %}
+                            <small class='text-muted'>
+                                Published by {{ post.user.get_full_name }}, {{ post.timestamp }}
+                            </small>
+                            {% elif post.user %}
+                            <small class='text-muted'>
+                                Published by {{ post.user }}, {{ post.timestamp }}
+                            </small>
+                            {% endif %}
+                        </p>
                         <a href="{{ post.get_absolute_url }}" class="btn btn-primary">View post</a>
                         <a href="{{ post.get_absolute_url }}edit/" class="btn btn-success">Edit post</a>
                     </div>
