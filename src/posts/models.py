@@ -1,7 +1,8 @@
 """ Future import """
 from django.db import models
 from django.core.urlresolvers import reverse
-
+from django.db.models.signals import pre_save
+from django.utils.text import slugify
 
 def upload_location(instance, filename):
     """set upload location to post_id/filename"""
@@ -13,6 +14,7 @@ class Post(models.Model):
     """ Post class """
     title = models.CharField(max_length=120)
     content = models.TextField()
+    slug = models.SlugField(unique=True)
 
     image = models.ImageField(upload_to=upload_location,
                               null=True,
@@ -33,7 +35,7 @@ class Post(models.Model):
         """ returning path of unique row """
         # posts:detail the posts is defined in the project urls.py as namespace
         # this allows us to use the same view name for different namespaces
-        return reverse("posts:detail", kwargs={'post_id': self.id})
+        return reverse("posts:detail", kwargs={'post_slug': self.slug})
         # %s means string substitution. is defined after the string with %()
         # return "/posts/%s/" %(self.id)
 
@@ -45,3 +47,22 @@ class Post(models.Model):
     # without havin to order it
     class Meta:
         ordering = ["-timestamp", "-updated"]
+
+def create_slug(instance, new_slug=None):
+    """slugify title"""
+    slug = slugify(instance.title)
+    if new_slug is not None:
+        slug = new_slug
+    qs = Post.objects.filter(slug=slug).order_by('-id')
+    exists = qs.exists()
+    if exists:
+        new_slug = '%s-%s' %(slug, qs.first().id)
+        return create_slug(instance, new_slug=new_slug)
+    return slug
+
+def pre_save_post_receiver(sender, instance, *args, **kwargs):
+    """create slug when not already"""
+    if not instance.slug:
+        instance.slug = create_slug(instance)
+
+pre_save.connect(pre_save_post_receiver, sender=Post)

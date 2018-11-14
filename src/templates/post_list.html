@@ -30,7 +30,7 @@
                         {% comment %} <h6 class="card-subtitle mb-2 text-muted">{{ post.timestamp}}</h6> {% endcomment %}
                         <p class="card-text">{{ post.content|linebreaks|truncatechars:120 }}</p>
                         <a href="{{ post.get_absolute_url }}" class="btn btn-primary">View post</a>
-                        <a href="{{post.id}}/edit/" class="btn btn-success">Edit post</a>
+                        <a href="{{ post.get_absolute_url }}edit/" class="btn btn-success">Edit post</a>
                     </div>
                 </div>
             {% endfor %}

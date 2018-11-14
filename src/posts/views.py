@@ -26,10 +26,10 @@ def post_create(request):
     }
     return render(request, 'post_form.html', context)
 
-def post_detail(request, post_id=None):
+def post_detail(request, post_slug=None):
     """ Post Detail """
     # instance = Post.objects.get('id=2')
-    instance = get_object_or_404(Post, id=post_id)
+    instance = get_object_or_404(Post, slug=post_slug)
     context = {
         'title': instance.title,
         'instance': instance
@@ -38,8 +38,8 @@ def post_detail(request, post_id=None):
 
 def post_list(request):
     """ List all Posts """
-    queryset = Post.objects.all()
-    paginator = Paginator(queryset, 5) # Show 10 posts per page
+    posts_list = Post.objects.all()
+    paginator = Paginator(posts_list, 5) # Show 10 posts per page
     page = request.GET.get('page')
     try:
         posts = paginator.page(page)
@@ -52,9 +52,9 @@ def post_list(request):
 
     return render(request, 'post_list.html', {'posts': posts})
 
-def post_update(request, post_id):
+def post_update(request, post_slug):
     """ Update Post """
-    instance = get_object_or_404(Post, id=post_id)
+    instance = get_object_or_404(Post, slug=post_slug)
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
         instance = form.save(commit=False)
@@ -72,8 +72,8 @@ def post_update(request, post_id):
     }
     return render(request, 'post_form.html', context)
 
-def post_delete(request, post_id):
+def post_delete(request, post_slug):
     """ Delete Post """
-    instance = get_object_or_404(Post, id=post_id)
+    instance = get_object_or_404(Post, slug=post_slug)
     instance.delete()
     return redirect('posts:list')

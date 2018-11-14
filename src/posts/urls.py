@@ -17,7 +17,7 @@ urlpatterns = [
     # <fieldname>
     # d+ means accepts only digits
     # with the name parameter we can call this url by that name without building the path
-    url(r'^(?P<post_id>\d+)/$', post_detail, name='detail'),
-    url(r'^(?P<post_id>\d+)/edit/$', post_update, name='update'),
-    url(r'^(?P<post_id>\d+)/delete/$', post_delete, name='delete'),
+    url(r'^(?P<post_slug>[\w-]+)/$', post_detail, name='detail'),
+    url(r'^(?P<post_slug>[\w-]+)/edit/$', post_update, name='update'),
+    url(r'^(?P<post_slug>[\w-]+)/delete/$', post_delete, name='delete'),
 ]
