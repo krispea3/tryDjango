@@ -1,5 +1,5 @@
 """ Render, httpresponse, getobjector404... """
-from django.http import HttpResponseRedirect #, HttpResponse
+from django.http import HttpResponseRedirect, Http404 #, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -11,6 +11,8 @@ from .forms import PostForm
 # Create your views here.
 def post_create(request):
     """ Create Post """
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
     # request.FILES has to be defined when file upload in Form
     form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -32,7 +34,7 @@ def post_detail(request, post_slug=None):
     instance = get_object_or_404(Post, slug=post_slug)
     context = {
         'title': instance.title,
-        'instance': instance
+        'instance': instance,
     }
     return render(request, 'post_detail.html', context)
 
@@ -54,6 +56,9 @@ def post_list(request):
 
 def post_update(request, post_slug):
     """ Update Post """
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
+
     instance = get_object_or_404(Post, slug=post_slug)
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
@@ -74,6 +79,9 @@ def post_update(request, post_slug):
 
 def post_delete(request, post_slug):
     """ Delete Post """
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
+
     instance = get_object_or_404(Post, slug=post_slug)
     instance.delete()
     return redirect('posts:list')
