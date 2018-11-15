@@ -24,24 +24,24 @@
                 <div class="card col-sm-12 mt-1" style="width: 18rem;">
                     <div class="card-body">
                         <!-- Title -->
-                        <h5 class="card-title"><a href='{{ post.get_absolute_url }}' >{{ post.title }}</a> <small class='text-muted'><small>{{post.timestamp|timesince}} ago</small></small></h5>
-                        <!-- Image -->
-                        {% if post.image %}
-                            <img class="card-img-top" src="{{post.image.url}}" alt="Card image cap">
-                        {% endif %}
-                        <p class="card-text">{{ post.content|linebreaks|truncatechars:120 }}</p>
-                        <!-- Published by -->
-                        <p>
+                        <h5 class="card-title mb-0"><a href='{{ post.get_absolute_url }}' >{{ post.title }}</a> <small class='text-muted'><small>{{post.publish|timesince}} ago</small></small></h5>
+                        
                             {% if post.user.get_full_name %}
                             <small class='text-muted'>
-                                Published by {{ post.user.get_full_name }}, {{ post.timestamp }}
+                                Published by {{ post.user.get_full_name }}, {{ post.publish }}
                             </small>
                             {% elif post.user %}
                             <small class='text-muted'>
                                 Published by {{ post.user }}, {{ post.timestamp }}
                             </small>
                             {% endif %}
-                        </p>
+    
+                        <!-- Image -->
+                        {% if post.image %}
+                            <img class="card-img-top" src="{{post.image.url}}" alt="Card image cap">
+                        {% endif %}
+                        <p class="card-text">{{ post.content|linebreaks|truncatechars:120 }}</p>
+                        <!-- Published by -->
                         <!-- Buttons -->
                         <a href="{{ post.get_absolute_url }}" class="btn btn-primary">View post</a>
                         <a href="{{ post.get_absolute_url }}edit/" class="btn btn-success">Edit post</a>

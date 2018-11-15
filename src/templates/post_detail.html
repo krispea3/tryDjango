@@ -12,17 +12,18 @@
             <img src="{{ instance.image.url }}" class="img-responsive"><br/>
         {% endif %}
 
-        <h1 class='mb-0'>{{ title }}</h1>
+        <h1 class='mb-0'>{{ title }} {% if instance.draft %}<small style="color:red">Draft</small>{% endif %}</h1>
+
         {% if instance.user.get_full_name %}
             <small class='text-muted'>
-                Published by {{ instance.user.get_full_name }}, {{ instance.timestamp }}
+                Published by {{ instance.user.get_full_name }}, {{ instance.publish }}
             </small>
-
         {% elif instance.user %}
             <small class='text-muted'>
-                Published by {{ instance.user }}, {{ instance.timestamp }}
+                Published by {{ instance.user }}, {{ instance.publish }}
             </small>
         {% endif %}
+
         <p>
             <div class="fb-like" 
                 data-href="{{ request.build_absolute_uri }}" 
@@ -58,11 +59,12 @@
         
         <hr/>
         <!-- Facebook comments -->
-        <div class="fb-comments mb-2"
+        <div class="fb-comments mb-2 ml-2"
             data-width=480
             data-href="{{ request.build_absolute_uri }}" 
             data-numposts="5">
         </div>
+        <hr/>
         <a href="/posts" class="btn btn-primary">Back</a>
     </div>
 
