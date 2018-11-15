@@ -8,44 +8,62 @@
 {% block content %}
 
     <div class='col-sm-6 mx-auto border mt-3 pb-3'>
-            <h1 class=>{{ title }}</h1>
+        {% if instance.image %}
+            <img src="{{ instance.image.url }}" class="img-responsive"><br/>
+        {% endif %}
 
-            {{ instance.content|linebreaks }}
-            
-            {% if instance.image %}
-                <img src="{{ instance.image.url }}" class="img-responsive"><br/>
-            {% endif %}
+        <h1 class='mb-0'>{{ title }}</h1>
+        {% if instance.user.get_full_name %}
+            <small class='text-muted'>
+                Published by {{ instance.user.get_full_name }}, {{ instance.timestamp }}
+            </small>
 
-            {% if instance.user.get_full_name %}
-                <small class='text-muted'>
-                    Published by {{ instance.user.get_full_name }}, {{ instance.timestamp }}
-                </small>
-            {% elif instance.user %}
-                <small class='text-muted'>
-                    Published by {{ instance.user }}, {{ instance.timestamp }}
-                </small>
-            {% endif %}
-
-            <div class="mb-2">
-                <small>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
-                    Facebook |
-                    </a>
-                    <a href="https://twitter.com/home?status={{ instance.content|urlify }}%20{{ request.build_absolute_uri }}">
-                    Twitter |
-                    </a>
-                    <a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>
-                    Google+ |
-                    </a>
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&url{{ request.build_absolute_uri }}&title={{ instance.title|urlify }}&summary={{ instance.content|urlify }}&source={{ request.build_absolute_uri }}">
-                    Linkedin |
-                    </a>
-                    <a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&{{ instance.content|urlify }}">
-                    Reddit
-                    </a>
-                </small>
+        {% elif instance.user %}
+            <small class='text-muted'>
+                Published by {{ instance.user }}, {{ instance.timestamp }}
+            </small>
+        {% endif %}
+        <p>
+            <div class="fb-like" 
+                data-href="{{ request.build_absolute_uri }}" 
+                data-layout="button_count" 
+                data-action="like" 
+                data-size="small" 
+                data-show-faces="true" 
+                data-share="true">
             </div>
-            <a href="/posts" class="btn btn-primary">Back</a>
+        </p>
+        <hr/>
+        <!-- <p>
+            <small>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+                Facebook |
+                </a>
+                <a href="https://twitter.com/home?status={{ instance.content|urlify }}%20{{ request.build_absolute_uri }}">
+                Twitter |
+                </a>
+                <a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>
+                Google+ |
+                </a>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url{{ request.build_absolute_uri }}&title={{ instance.title|urlify }}&summary={{ instance.content|urlify }}&source={{ request.build_absolute_uri }}">
+                Linkedin |
+                </a>
+                <a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&{{ instance.content|urlify }}">
+                Reddit
+                </a>
+            </small>
+        </p> -->
+
+        {{ instance.content|linebreaks }}
+        
+        <hr/>
+        <!-- Facebook comments -->
+        <div class="fb-comments mb-2"
+            data-width=480
+            data-href="{{ request.build_absolute_uri }}" 
+            data-numposts="5">
+        </div>
+        <a href="/posts" class="btn btn-primary">Back</a>
     </div>
 
 {% endblock content %}
