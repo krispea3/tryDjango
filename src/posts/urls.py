@@ -12,7 +12,7 @@ from .views import (
 
 urlpatterns = [
     url(r'^$', post_list, name='list'),
-    url(r'^create/$', post_create),
+    url(r'^create/$', post_create, name='create'),
     # ?P defines new parameter
     # <fieldname>
     # d+ means accepts only digits

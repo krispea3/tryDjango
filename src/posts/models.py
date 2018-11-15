@@ -10,7 +10,6 @@ def upload_location(instance, filename):
     return "%s/%s" %(instance.id, filename)
 # Create your models here.
 
-
 class Post(models.Model):
     """ Post class """
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
