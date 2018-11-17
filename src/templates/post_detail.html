@@ -2,78 +2,76 @@
 {% load urlify %}
 
 {% block head_title %}
-    {{ instance.title }} | {{ block.super }}
+{{ instance.title }} | {{ block.super }}
 {% endblock head_title %}
 
 {% block content %}
-
-    <div class='col-sm-6 mx-auto border mt-3 pb-3'>
-        {% if instance.image %}
-            <img src="{{ instance.image.url }}" class="img-responsive"><br/>
-        {% endif %}
-
-        <h1 class='mb-0'>{{ title }} {% if instance.draft %}<small style="color:red">Draft</small>{% endif %}</h1>
-
-        {% if instance.user.get_full_name %}
-            <small class='text-muted'>
-                Published by {{ instance.user.get_full_name }}, 
-                {% if instance.publish > today %} 
-                    <span style='color:red'>For staff only</span>
-                {% endif %} 
-                {{ instance.publish }}
-            </small>
-        {% elif instance.user %}
-            <small class='text-muted'>
-                Published by {{ instance.user }}, 
-                {% if instance.publish > today %} 
-                    <span style='color:red'>For staff only</span>
-                {% endif %} 
-                {{ instance.publish }}
-            </small>
-        {% endif %}
-
-        <p>
-            <div class="fb-like" 
-                data-href="{{ request.build_absolute_uri }}" 
-                data-layout="button_count" 
-                data-action="like" 
-                data-size="small" 
-                data-show-faces="true" 
-                data-share="true">
-            </div>
-        </p>
-        <hr/>
-        <!-- <p>
-            <small>
-                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
-                Facebook |
-                </a>
-                <a href="https://twitter.com/home?status={{ instance.content|urlify }}%20{{ request.build_absolute_uri }}">
-                Twitter |
-                </a>
-                <a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>
-                Google+ |
-                </a>
-                <a href="https://www.linkedin.com/shareArticle?mini=true&url{{ request.build_absolute_uri }}&title={{ instance.title|urlify }}&summary={{ instance.content|urlify }}&source={{ request.build_absolute_uri }}">
-                Linkedin |
-                </a>
-                <a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&{{ instance.content|urlify }}">
-                Reddit
-                </a>
-            </small>
-        </p> -->
-
-        {{ instance.content|linebreaks }}
-        
-        <hr/>
-        <!-- Facebook comments -->
-        <div class="fb-comments mb-2 ml-2"
-            data-width=480
+<div class='col-sm-6 mx-auto border mt-3 pb-3'>
+    {% comment %} Image {% endcomment %}
+    {% if instance.image %}
+    <img src="{{ instance.image.url }}" class="img-responsive"><br/>
+    {% endif %}
+    {% comment %} Title {% endcomment %}
+    <h1 class='mb-0'>{{ title }} {% if instance.draft %}<small style="color:red">Draft</small>{% endif %}</h1>
+    {% comment %} Author and published date {% endcomment %}
+    {% if instance.user.get_full_name %}
+    <small class='text-muted'>
+        Published by {{ instance.user.get_full_name }}, 
+        {% if instance.publish > today %} 
+            <span style='color:red'>For staff only</span>
+        {% endif %} 
+        {{ instance.publish }}
+    </small>
+    {% elif instance.user %}
+    <small class='text-muted'>
+        Published by {{ instance.user }}, 
+        {% if instance.publish > today %} 
+            <span style='color:red'>For staff only</span>
+        {% endif %} 
+        {{ instance.publish }}
+    </small>
+    {% endif %}
+    {% comment %} Facebook Likes/Share {% endcomment %}
+    <p><div class="fb-like" 
             data-href="{{ request.build_absolute_uri }}" 
-            data-numposts="5">
-        </div>
-        <hr/>
-        <a href="/posts" class="btn btn-primary">Back</a>
+            data-layout="button_count" 
+            data-action="like" 
+            data-size="small" 
+            data-show-faces="true" 
+            data-share="true">
+        </div></p>
+    <hr/>
+    <!-- <p>
+        <small>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+            Facebook |
+            </a>
+            <a href="https://twitter.com/home?status={{ instance.content|urlify }}%20{{ request.build_absolute_uri }}">
+            Twitter |
+            </a>
+            <a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>
+            Google+ |
+            </a>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url{{ request.build_absolute_uri }}&title={{ instance.title|urlify }}&summary={{ instance.content|urlify }}&source={{ request.build_absolute_uri }}">
+            Linkedin |
+            </a>
+            <a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&{{ instance.content|urlify }}">
+            Reddit
+            </a>
+        </small>
+    </p> -->
+    {% comment %} Content {% endcomment %}
+    <div class='row'>
+        <div class='col-sm-12 content-markdown'>{{ instance.content }}</div>
     </div>
-
+    <hr/>
+    <!-- Facebook comments -->
+    <div class="fb-comments mb-2 ml-2"
+        data-width=480
+        data-href="{{ request.build_absolute_uri }}" 
+        data-numposts="5">
+    </div>
+    <hr/>
+    <a href="/posts" class="btn btn-primary">Back</a>
+</div>
 {% endblock content %}

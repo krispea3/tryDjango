@@ -1,6 +1,11 @@
 <!-- Takes base.html as parent -->
 {% extends "base.html" %}
 
+{% comment %} pushes the css/javascript fom Pagedown Widget to the base.html {% endcomment %}
+{% block head_extra %}
+    {{ form.media }}
+{% endblock head_extra %}
+
 {% block head_title %}
     Add/Change Post | {{ block.super }}
 {% endblock head_title %}
@@ -9,16 +14,14 @@
 {% block content %}
 <!-- keeps the content of the parent block -->
 <!-- {{ block.super}} -->
-<div class='col-sm-6 mx-auto border mt-3 pb-3'>
+<div class='col-sm-6 mx-auto'>
     <h1>Form</h1>
-    {% comment %} enctype="multipart/form-data has to be defined when form contains file uploads {% endcomment %}
+{% comment %} enctype="multipart/form-data has to be defined when form contains file uploads {% endcomment %}
     <form method="POST" action="" enctype="multipart/form-data">{% csrf_token %}
-        <!-- as_p means as paragraph -->
+    <!-- as_p means as paragraph -->
         {{ form.as_p }}
-
         <input class='btn btn-success' type="submit" value="Save post">
         <a href="/posts" class="btn btn-primary">Cancel</a>
-
     </form>
 </div>
 {% endblock content %}

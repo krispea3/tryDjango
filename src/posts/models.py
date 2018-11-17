@@ -8,11 +8,13 @@ from django.utils import timezone
 
 # With Manager class we can override or create new queryset calls.
 # Example Post.objects.all() could be overwritten here by defining function with name 'all'
-# Here we create a new one called 'active' so we can now use Post.objects.active() to return 
+# Here we create a new one called 'active' so we can now use Post.objects.active() to return
 # a queryset with the filters defined here
 class PostManager(models.Manager):
+    """Model manager"""
     def active(self, *args, **kwargs):
-        return super(PostManager, self).filter(draft=False, publish__lte=timezone.now()) # .filter(publish__lte=timezone.now())
+        """Returns only active posts"""
+        return super(PostManager, self).filter(draft=False, publish__lte=timezone.now())
 
 def upload_location(instance, filename):
     """set upload location to post_id/filename"""
