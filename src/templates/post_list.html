@@ -6,29 +6,11 @@
         <h1>My posts</h1>
     </div>
     {% comment %} Search {% endcomment %}
-    <div class='row'>
+    <div class='row mb-2'>
         <form method="GET" action="">
             <input type="text" name='q' placeholder="Search posts" value='{{ request.GET.q }}'>
             <input type="submit" value='Search'>
         </form>
-    </div>
-    {% comment %} Pagination {% endcomment %}
-    <div class='row'>
-        <div class="pagination">
-            <span class="step-links">
-                {% if posts.has_previous %}
-                <a href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
-                </span>
-
-                {% if posts.has_next %}
-                <a href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
-                {% endif %}
-            </span>
-        </div>
     </div>
     {% comment %} Blog entries {% endcomment %}
     {% for post in posts %}
@@ -76,6 +58,10 @@
                 {% endif %}
             </div>
         </div>
+    </div>
+    {% empty %}
+    <div class='row'>
+        <strong>No posts to display</strong>
     </div>
     {% endfor %}
     {% comment %} Pagination {% endcomment %}
