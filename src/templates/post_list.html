@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class='col-sm-6 mx-auto'>
+<div class='col-lg-6 mx-auto'>
     <div class='row'>
         <h1>My posts</h1>
     </div>
@@ -63,9 +63,12 @@
                 {% endif %}
                 <!-- Image -->
                 {% if post.image %}
-                <img class="card-img-top" src="{{post.image.url}}" alt="Card image cap">
+                <img class="card-img-top img-fluid" src="{{post.image.url}}" alt="Card image cap">
                 {% endif %}
-                <p class="card-text content-markdown">{{ post.content|truncatechars:120 }}</p>
+                {% comment %} Content as Markdown {% endcomment %}
+                <div class='post-detail-item card-text'>
+                    {{ post.get_markdown }}
+                </div>
                 <!-- Buttons -->
                 <a href="{{ post.get_absolute_url }}" class="btn btn-primary">View post</a>
                 {% if is_staff %}

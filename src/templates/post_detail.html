@@ -6,10 +6,10 @@
 {% endblock head_title %}
 
 {% block content %}
-<div class='col-sm-6 mx-auto border mt-3 pb-3'>
+<div class='col-lg-6 mx-auto border mt-3 pb-3'>
     {% comment %} Image {% endcomment %}
     {% if instance.image %}
-    <img src="{{ instance.image.url }}" class="img-responsive"><br/>
+    <img src="{{ instance.image.url }}" class="img-fluid"><br/>
     {% endif %}
     {% comment %} Title {% endcomment %}
     <h1 class='mb-0'>{{ title }} {% if instance.draft %}<small style="color:red">Draft</small>{% endif %}</h1>
@@ -62,7 +62,10 @@
     </p> -->
     {% comment %} Content {% endcomment %}
     <div class='row'>
-        <div class='col-sm-12 content-markdown'>{{ instance.content }}</div>
+        <div class='col-sm-12 post-detail-item'>
+            {{ instance.get_markdown }}
+    </div>
+        {% comment %} content-markdown {% endcomment %}
     </div>
     <hr/>
     <!-- Facebook comments -->

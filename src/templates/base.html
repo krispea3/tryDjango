@@ -54,11 +54,18 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.1/marked.min.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function(){
+        // display content as Markdown 
+        /*$(document).ready(function(){
             $(".content-markdown").each(function(){
                 var content = $(this).text()
                 var markedContent = marked(content)
                 $(this).html(markedContent)
+            })
+        })*/
+        // add img-fluid class to all <img> tags within the content field
+        $(document).ready(function(){
+            $(".post-detail-item img").each(function(){
+                $(this).addClass("img-fluid")
             })
         })
     </script>

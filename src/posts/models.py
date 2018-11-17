@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.utils import timezone
+from django.utils.safestring import mark_safe 
+from markdown_deux import markdown
 
 # With Manager class we can override or create new queryset calls.
 # Example Post.objects.all() could be overwritten here by defining function with name 'all'
@@ -62,6 +64,13 @@ class Post(models.Model):
     # None are required, and adding class Meta to a model is completely optional.
     # Here the ordering of a simple fetch will return the rows sorted with most recent timestamp
     # without havin to order it
+
+    """Return the content as markdown"""
+    def get_markdown(self):
+        content = self.content
+        markdown_text = markdown(content)
+        return mark_safe(markdown_text)
+
     class Meta:
         ordering = ["-timestamp", "-updated"]
 
