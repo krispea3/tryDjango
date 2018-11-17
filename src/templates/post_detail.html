@@ -16,11 +16,19 @@
 
         {% if instance.user.get_full_name %}
             <small class='text-muted'>
-                Published by {{ instance.user.get_full_name }}, {{ instance.publish }}
+                Published by {{ instance.user.get_full_name }}, 
+                {% if instance.publish > today %} 
+                    <span style='color:red'>For staff only</span>
+                {% endif %} 
+                {{ instance.publish }}
             </small>
         {% elif instance.user %}
             <small class='text-muted'>
-                Published by {{ instance.user }}, {{ instance.publish }}
+                Published by {{ instance.user }}, 
+                {% if instance.publish > today %} 
+                    <span style='color:red'>For staff only</span>
+                {% endif %} 
+                {{ instance.publish }}
             </small>
         {% endif %}
 
