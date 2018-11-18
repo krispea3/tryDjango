@@ -1,6 +1,8 @@
 <!-- Takes base.html as parent -->
 {% extends "base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% comment %} pushes the css/javascript fom Pagedown Widget to the base.html {% endcomment %}
 {% block head_extra %}
     {{ form.media }}
@@ -31,7 +33,8 @@
     {% comment %} enctype="multipart/form-data has to be defined when form contains file uploads {% endcomment %}
         <form method="POST" action="" enctype="multipart/form-data">{% csrf_token %}
         <!-- as_p means as paragraph -->
-            {{ form.as_p }}
+            {% comment %} {{ form.as_p }} {% endcomment %}
+            {{ form|crispy }}
             <input class='btn btn-success' type="submit" value="Save post">
             <a href="/posts" class="btn btn-primary">Cancel</a>
         </form>
