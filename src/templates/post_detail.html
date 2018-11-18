@@ -64,17 +64,36 @@
     <div class='row'>
         <div class='col-sm-12 post-detail-item'>
             {{ instance.get_markdown }}
-    </div>
-        {% comment %} content-markdown {% endcomment %}
+        </div>
     </div>
     <hr/>
+
+    <div class='col-sm-12'>
+        <p class='lead text-muted'>Comments</p>
+    {% comment %} <div class='row'> {% endcomment %}
+        {% for comment in comments %}
+        <div class='card rounded border-success mb-3'>
+            <div class='card-body'>
+            {{comment.content}}<br/>
+            <small>via {{comment.user.username}} | {{comment.timestamp|timesince}} ago</small>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+        {% comment %} </div> {% endcomment %}
+        <hr/>
+        <a href="/posts" class="btn btn-primary">Back</a>
+    {% comment %} </div> {% endcomment %}
+</div>
+{% endblock content %}
+
+
     <!-- Facebook comments -->
-    <div class="fb-comments mb-2 ml-2"
+    {% comment %} <div class="fb-comments mb-2 ml-2"
         data-width=480
         data-href="{{ request.build_absolute_uri }}" 
         data-numposts="5">
     </div>
-    <hr/>
-    <a href="/posts" class="btn btn-primary">Back</a>
-</div>
-{% endblock content %}
+    <hr/> {% endcomment %}

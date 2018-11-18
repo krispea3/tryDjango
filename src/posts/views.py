@@ -2,12 +2,15 @@
 from django.http import HttpResponseRedirect, Http404  # , HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 
 from .models import Post
 from .forms import PostForm
+
+from comments.models import Comment
 
 
 # Create your views here.
@@ -43,11 +46,15 @@ def post_detail(request, post_slug=None):
     if not request.user.is_staff or not request.user.is_superuser:
         if instance.draft or instance.publish > today:
             raise Http404
-
+    # Building the generic foreign key and fetch all comments with it
+    content_type = ContentType.objects.get_for_model(Post)
+    obj_id = instance.id
+    comments = Comment.objects.filter(content_type=content_type, object_id=obj_id)
     context = {
         'title': instance.title,
         'instance': instance,
-        'today': today
+        'today': today,
+        'comments': comments,
     }
     return render(request, 'post_detail.html', context)
 
