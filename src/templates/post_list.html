@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class='col-lg-6 mx-auto'>
+{% comment %} Title {% endcomment %}
     <div class='row'>
         <h1>My posts</h1>
     </div>
@@ -49,7 +50,7 @@
                 {% endif %}
                 {% comment %} Content as Markdown {% endcomment %}
                 <div class='post-detail-item card-text'>
-                    {{ post.get_markdown }}
+                    {{ post.get_markdown|truncatechars_html:50 }}
                 </div>
                 <!-- Buttons -->
                 <a href="{{ post.get_absolute_url }}" class="btn btn-primary">View post</a>

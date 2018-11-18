@@ -62,12 +62,37 @@
                 $(this).html(markedContent)
             })
         })*/
-        // add img-fluid class to all <img> tags within the content field
         $(document).ready(function(){
+            // add img-fluid class to all <img> tags within the content field
             $(".post-detail-item img").each(function(){
                 $(this).addClass("img-fluid")
             })
+            // setting up form-preview
+                //Title
+            var titleInput = $('#id_title');
+            function setTitle(value) {
+                $('#preview-title').text(value);
+            }
+            setTitle(titleInput.val())
+            titleInput.keyup(function() {
+                setTitle(titleInput.val())
+            })
+                // Content
+            var contentInput = $('#id_content');
+            function setContent(value) {
+                var markedContent = marked(value);
+                $('#preview-content').html(markedContent);
+                $('#preview-content img').each(function(){
+                    $(this).addClass('img-fluid');
+                })
+            }
+            setContent(contentInput.val());
+            contentInput.keyup(function() {
+                var newContent = $(this).val();
+                setContent(newContent);
+            })
         })
+
     </script>
 </body>
 
