@@ -2,86 +2,84 @@
 
 {% block content %}
 <div class='col-lg-6 mx-auto'>
-{% comment %} Title {% endcomment %}
-    <div class='row'>
+    <div class='text-center mb-3'>
         <h1>My posts</h1>
     </div>
-    {% comment %} Search {% endcomment %}
-    <div class='row mb-2'>
-        <form method="GET" action="">
-            <input type="text" name='q' placeholder="Search posts" value='{{ request.GET.q }}'>
-            <input type="submit" value='Search'>
-        </form>
-    </div>
+    {% comment %} Search bar {% endcomment %}
+    <form method="GET" action="">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name='q' placeholder="Search" aria-label="Search" aria-describedby="basic-addon2" value='{{ request.GET.q }}'>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit"><i class='fa fa-search'></i></button>
+            </div>
+        </div>
+    </form>
+
     {% comment %} Blog entries {% endcomment %}
     {% for post in posts %}
-    <div class='row'>
-        <div class="card col-sm-12 mt-1" style="width: 18rem;">
-            <div class="card-body">
-                <!-- Title -->
-                <h5 class="card-title mb-0"><a href='{{ post.get_absolute_url }}' >{{ post.title }}</a> <small class='text-muted'><small>{{post.publish|timesince}} ago</small></small></h5>
-                {% comment %} Author/Publish date {% endcomment %}
-                {% if post.user.get_full_name %}
-                <small class='text-muted'>
-                    Published by {{ post.user.get_full_name }}, 
-                    {% if post.publish > today %} 
-                        <span style='color:red'>For staff only</span> 
-                    {% endif %} 
-                    {{ post.publish }}
-                    {% if post.draft %}
-                        <span style='color:red'> Draft</span>
-                    {% endif %}
-                </small>
-                {% elif post.user %}
-                <small class='text-muted'>
-                    Published by {{ post.user }}, 
-                    {% if post.publish > today %} 
-                        <span style='color:red'>For staff only</span>
-                    {% endif %} 
-                    {{ post.publish }}
-                    {% if post.draft %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <!-- Title -->
+            <h5 class="card-title mb-0"><a href='{{ post.get_absolute_url }}' >{{ post.title }}</a> <small class='text-muted'><small>{{post.publish|timesince}} ago</small></small></h5>
+            {% comment %} Author/Publish date {% endcomment %}
+            {% if post.user.get_full_name %}
+            <small class='text-muted'>
+                Published by {{ post.user.get_full_name }}, 
+                {% if post.publish > today %} 
+                    <span style='color:red'>For staff only</span> 
+                {% endif %} 
+                {{ post.publish }}
+                {% if post.draft %}
                     <span style='color:red'> Draft</span>
-                    {% endif %}
-                </small>
                 {% endif %}
-                <!-- Image -->
-                {% if post.image %}
-                <img class="card-img-top img-fluid" src="{{post.image.url}}" alt="Card image cap">
+            </small>
+            {% elif post.user %}
+            <small class='text-muted'>
+                Published by {{ post.user }}, 
+                {% if post.publish > today %} 
+                    <span style='color:red'>For staff only</span>
+                {% endif %} 
+                {{ post.publish }}
+                {% if post.draft %}
+                <span style='color:red'> Draft</span>
                 {% endif %}
-                {% comment %} Content as Markdown {% endcomment %}
-                <div class='post-detail-item card-text'>
-                    {{ post.get_markdown|truncatechars_html:50 }}
-                </div>
-                <!-- Buttons -->
-                <a href="{{ post.get_absolute_url }}" class="btn btn-primary">View post</a>
-                {% if is_staff %}
-                <a href="{{ post.get_absolute_url }}edit/" class="btn btn-success">Edit post</a>
-                {% endif %}
+            </small>
+            {% endif %}
+            <!-- Image -->
+            {% if post.image %}
+            <img class="card-img-top img-fluid" src="{{post.image.url}}" alt="Card image cap">
+            {% endif %}
+            {% comment %} Content as Markdown {% endcomment %}
+            <div class='post-detail-item card-text'>
+                {{ post.get_markdown|truncatechars_html:50 }}
             </div>
+            <!-- Buttons -->
+            <a href="{{ post.get_absolute_url }}" class="btn btn-primary">View post</a>
+            {% if is_staff %}
+            <a href="{{ post.get_absolute_url }}edit/" class="btn btn-success">Edit post</a>
+            {% endif %}
         </div>
     </div>
     {% empty %}
-    <div class='row'>
-        <strong>No posts to display</strong>
+    <div class='mb-2 text-center font-weight-bold'>
+    <p>--- No posts to display ---</p>
     </div>
     {% endfor %}
     {% comment %} Pagination {% endcomment %}
-    <div class='row'>
-        <div class="pagination mb-3">
-            <span class="step-links">
-                {% if posts.has_previous %}
-                <a href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
-                {% endif %}
+    <div class="pagination mb-3">
+        <span class="step-links">
+            {% if posts.has_previous %}
+            <a href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+            {% endif %}
 
-                <span class="current">
-                    Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
-                </span>
-
-                {% if posts.has_next %}
-                <a href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
-                {% endif %}
+            <span class="current">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
             </span>
-        </div>
+
+            {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+            {% endif %}
+        </span>
     </div>
 </div>
 {% endblock content %}
